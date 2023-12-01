@@ -20,7 +20,7 @@ def app(df, X, y):
     st.set_option('deprecation.showPyplotGlobalUse', False)
 
     # Set the page title
-    st.title("Visualise Heart Ailment Demographics")
+    st.title("Visualise Lung Ailment Demographics")
 
     # Create a checkbox to show correlation heatmap
     if st.checkbox("Show the correlation heatmap"):
@@ -32,32 +32,13 @@ def app(df, X, y):
         ax.set_ylim(bottom + 0.5, top - 0.5)                    # Increasing the bottom and decreasing the top margins respectively.
         st.pyplot(fig)
 
-    if st.checkbox("Resting ECG vs Age Plot"):
-        sns.color_palette("rocket", as_cmap=True)
-        ax=sns.scatterplot(x="age",y="restecg",data=df)
-        st.pyplot()
-
-    if st.checkbox("Show Sample Results"):
-        safe = (df['target'] == 0).sum()
-        prone = (df['target'] == 1).sum()
-        data = [safe,prone]
-        labels = ['Safe', 'Prone']
-        colors = sns.color_palette('pastel')[0:7]
-        plt.pie(data, labels = labels, colors = colors, autopct='%.0f%%')
-        st.pyplot()
-
-    '''if st.checkbox("Plot confusion matrix"):
-        model, score = train_model(X, y)
-        plt.figure(figsize = (10, 6))
-        plot_confusion_matrix(model, X, y, values_format='d')
-        st.pyplot()'''
-
+       
     if st.checkbox("Plot Decision Tree"):
         model, score = train_model(X, y)
         # Export decision tree in dot format and store in 'dot_data' variable.
         dot_data = tree.export_graphviz(
             decision_tree=model, max_depth=3, out_file=None, filled=True, rounded=True,
-            feature_names=X.columns, class_names=['0', '1']
+            feature_names=X.columns, class_names=['1','2','3','4']
         )
         # Plot the decision tree using the 'graphviz_chart' function of the 'streamlit' module.
         st.graphviz_chart(dot_data)
